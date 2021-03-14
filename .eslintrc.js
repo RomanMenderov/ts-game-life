@@ -22,6 +22,6 @@ module.exports = {
     "max-len": ["error", { ignoreComments: true }],
     "no-plusplus": ["error", { allowForLoopAfterthoughts: true }],
     "import/no-unresolved": "off", // https://github.com/typescript-eslint/typescript-eslint/issues/1624
-    "import/extensions": ["warn", "never"], // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/extensions.md
+    "import/extensions": "off", // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/extensions.md
   },
 };

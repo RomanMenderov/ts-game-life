@@ -37,19 +37,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
+        test: /\.(j|t)s$/,
+        exclude: /(node_modules)/,
         use: {
           loader: "babel-loader",
         },
       },
-      {
-        test: /\.ts$/,
-        exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: "babel-loader",
-        },
-      },
+
     ],
   },
   devServer: {
