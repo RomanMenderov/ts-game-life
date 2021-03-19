@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 
 module.exports = {
@@ -15,6 +16,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin(),
+    new MiniCssExtractPlugin(),
     new BrowserSyncPlugin(
       // BrowserSync options
       {
@@ -43,7 +45,11 @@ module.exports = {
           loader: "babel-loader",
         },
       },
-
+      {
+        // https://webpack.js.org/loaders/css-loader/
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
     ],
   },
   devServer: {
