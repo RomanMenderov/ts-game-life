@@ -2,7 +2,7 @@
   "name": "ts-game-life",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "jest --coverage",
     "lint": "prettier --check . && eslint . --ext .js,.ts",

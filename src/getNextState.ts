@@ -8,17 +8,6 @@ import { getNewCellState } from "./getNewCellState";
  * @return number[][] - новое состояние поля
  */
 export function getNextState(field: number[][]): number[][] {
-  // return field.map((row, rowIndex) =>
-  //   {
-  //     return row.map((cell, cellIndex) =>
-  //     {
-  //       const aliveNeighbours = getNumOfAliveNeighbours(cellIndex,rowIndex, field);
-  //       const currentState = getCellState(field, cellIndex, rowIndex);
-  //       const newState = getNewCellState(currentState, aliveNeighbours);
-  //       return newState;
-  //     })
-  //   });
-
   return field.map((row, rowIndex) =>
     row.map((cell, cellIndex) => {
       const an = getNumOfAliveNeighbours(cellIndex, rowIndex, field);

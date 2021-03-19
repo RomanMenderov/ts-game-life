@@ -72,7 +72,11 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
       oldField.splice(newY - 1);
     } else if (oldY < newY) {
       for (let i = 0; i < newY - oldY; i++) {
-        oldField.push(new Array(oldX).map(() => 0));
+        const row = [];
+        for (let j = 0; j < newX; j++) {
+          row.push(0);
+        }
+        oldField.push(row);
       }
     }
 

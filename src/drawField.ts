@@ -30,7 +30,6 @@ export function drawField(
     return rowResult;
   };
 
-  // const table = `<table border=1>${field.map(rowIterator).join("")}</table>`;
   const table = document.createElement("table");
   table.innerHTML = field.map(rowIterator).join("");
 
@@ -52,9 +51,6 @@ export function drawField(
     return el;
   });
 
-  // const table = document.createElement('table');
-  // table.innerHTML = field.map(rowIterator).join("");
-  // eslint-disable-next-line no-param-reassign
   if (htmlElement.firstChild) {
     htmlElement.removeChild(htmlElement.firstChild);
   }

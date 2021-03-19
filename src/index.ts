@@ -13,4 +13,4 @@ document.body.appendChild(gameWrapper1);
 document.body.appendChild(gameWrapper2);
 
 createGameOfLife(gameWrapper1);
-// createGameOfLife(10, 10, gameWrapper2);
+createGameOfLife(gameWrapper2);
