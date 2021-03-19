@@ -1,0 +1,22 @@
+.cell {
+  width: 10px;
+  height: 10px;
+  border: 1px solid black;
+}
+
+.dead {
+  background-color: #ffffff;
+}
+
+.alive {
+  background-color: black;
+}
+
+.shouldBorn {
+  background-color: #fbff00;
+}
+
+.shouldDie {
+  background-color: #a3a3a3;
+}
+
