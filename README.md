@@ -1,6 +1,6 @@
 # Приложение по игре Жизнь исполненное на TypeScript
 
-### (Переделано из JS версии ![Исходник](https://github.com/vvscode/ts--env-setup-example) )
+### (Переделано из JS версии [Исходник](https://github.com/vvscode/ts--env-setup-example) )
 
 ![PR Sanity Check](https://github.com/RomanMenderov/ts-game-life/workflows/PR%20Sanity%20Check/badge.svg)
 ![Add codesandbox link](https://github.com/RomanMenderov/ts-game-life/workflows/Add%20codesandbox%20link/badge.svg)
