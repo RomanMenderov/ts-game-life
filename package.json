@@ -5,8 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "test": "jest --coverage",
-    "lint": "prettier --check . && eslint . --ext .js,.ts",
-    "lint:fix": "prettier --write . && eslint . --fix --ext .js,.ts",
+    "lint": "prettier --check . && eslint . --ext .js,.ts  && stylelint \"**/*.css\"",
+    "lint:fix": "prettier --write . && eslint . --fix --ext .js,.ts  && stylelint \"**/*.css\"",
     "start": "webpack serve --mode development",
     "build": "webpack --mode production"
   },
@@ -61,6 +61,7 @@
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix --ext .js,.ts",
-    "*.ts": "eslint --cache --fix --ext .js,.ts"
+    "*.ts": "eslint --cache --fix --ext .js,.ts",
+    "*.css": "stylelint --fix"
   }
 }
