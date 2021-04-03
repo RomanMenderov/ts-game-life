@@ -19,3 +19,7 @@
 .shouldDie {
   background-color: #a3a3a3;
 }
+
+.legend-cell {
+  display: inline-block;
+}

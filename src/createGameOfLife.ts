@@ -1,6 +1,7 @@
 import { drawField } from "./drawField";
 import { getNextState } from "./getNextState";
 import { isAnyoneAlive } from "./isAnyoneAlive";
+import { createMatrix, updateMatrix } from "./returnMatrix";
 
 /**
  * Создание игры Жизнь
@@ -12,6 +13,7 @@ import { isAnyoneAlive } from "./isAnyoneAlive";
 export function createGameOfLife(htmlElement: HTMLElement): void {
   let gameIsRunning = false;
   let timer: number;
+  let ticTime: number;
   let field: number[][];
   let newField: number[][];
   let sizeX: number;
@@ -23,16 +25,30 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
   fieldWrapper.className = "field-wrapper";
   htmlElement.appendChild(fieldWrapper);
 
+  const legend = document.createElement("div");
+  legend.innerHTML = `<span>Легенда:</span><br/>
+  <div class='cell legend-cell alive'></div><span>- Живая клетка</span>
+  &nbsp;
+  <div class='cell legend-cell dead'></div><span>- Мертвая клетка</span>
+  &nbsp;
+  <div class='cell legend-cell shouldBorn'></div><span>- Рождающая клетка</span>
+  &nbsp;
+  <div class='cell legend-cell shouldDie'></div>
+  <span>- Умирающая клетка</span>`;
+  htmlElement.appendChild(legend);
+
   const inputX = document.createElement("input");
   inputX.type = "number";
   inputX.name = "columns";
   inputX.placeholder = "Количество столбцов";
+  inputX.value = "10";
   htmlElement.appendChild(inputX);
 
   const inputY = document.createElement("input");
   inputY.type = "number";
   inputY.name = "strings";
   inputY.placeholder = "Количество строк";
+  inputY.value = "10";
   htmlElement.appendChild(inputY);
 
   const timeScale = document.createElement("input");
@@ -43,53 +59,24 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
   timeScale.value = "5";
   htmlElement.appendChild(timeScale);
 
+  const inputRText = document.createElement("span");
+  inputRText.innerHTML = "<br/>Рандомные клетки";
+  htmlElement.appendChild(inputRText);
+
+  const inputR = document.createElement("input");
+  inputR.type = "checkbox";
+  inputR.name = "randomiser";
+  inputR.placeholder = "Randomiser";
+  htmlElement.appendChild(inputR);
+
   const button = document.createElement("button");
   button.innerText = "Start";
   htmlElement.appendChild(button);
 
-  function createMatrix(lengthX: number, lengthY: number): number[][] {
-    const matrix = [];
-    for (let i = 0; i < lengthY; i++) {
-      const row = [];
-      for (let j = 0; j < lengthX; j++) {
-        row.push(Math.round(Math.random()));
-      }
-      matrix.push(row);
-    }
-    return matrix;
-  }
-
-  function updateMatrix(
-    oldField: number[][],
-    newX: number,
-    newY: number
-  ): number[][] {
-    const oldX = oldField[0].length;
-    const oldY = oldField.length;
-    if (oldY > newY) {
-      oldField.splice(newY - 1);
-    } else if (oldY < newY) {
-      for (let i = 0; i < newY - oldY; i++) {
-        const row = [];
-        for (let j = 0; j < newX; j++) {
-          row.push(0);
-        }
-        oldField.push(row);
-      }
-    }
-
-    if (oldX > newX) {
-      oldField.map((el) => el.splice(newX - 1));
-    } else if (oldX < newX) {
-      oldField.forEach((el) => {
-        for (let i = 0; i < newX - oldX; i++) {
-          el.push(0);
-        }
-      });
-    }
-
-    return oldField;
-  }
+  const resetButton = document.createElement("button");
+  resetButton.innerText = "Reset";
+  resetButton.name = "Reset";
+  htmlElement.appendChild(resetButton);
 
   const cellClickHandler = (x: number, y: number) => {
     field[y][x] = field[y][x] === 0 ? 1 : 0;
@@ -98,24 +85,48 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
   };
 
   // Отрисовать поле заданного размера
-
   // При клике по ячейке поля
   // - поменять его состояние
   // - перерисовать поле
-  function stopGame() {
+
+  function stopGame(massage?: string) {
+    const myMassage = massage || "Игра приостановлена";
     gameIsRunning = false;
+    // - поменять надпись на `start`
     button.innerText = "Start";
-    // При клике на кнопке `Stop` остановить таймер
     clearInterval(timer);
+    // eslint-disable-next-line no-alert
+    alert(myMassage);
   }
+
+  function resetGame() {
+    const myMassage = "Игра сброшена";
+    gameIsRunning = false;
+    // - поменять надпись на `start`
+    button.innerText = "Start";
+    clearInterval(timer);
+    // eslint-disable-next-line no-alert
+    alert(myMassage);
+    field = [[]];
+  }
+
   function startGame() {
     // При клике по кнопке старт
     // - поменять надпись на `Stop`
-    gameIsRunning = true;
-    button.innerText = "Stop";
+    ticTime = Number(timeScale.value) * 1000;
     sizeX = Number(inputX.value);
     sizeY = Number(inputY.value);
-    field = createMatrix(sizeX, sizeY);
+    if (sizeX <= 0 || sizeY <= 0) {
+      stopGame("Недопустимый размер поля");
+      return;
+    }
+    gameIsRunning = true;
+    button.innerText = "Stop";
+
+    if (!field || JSON.stringify(field) === "[[]]") {
+      field = createMatrix(sizeX, sizeY, inputR.checked);
+    }
+
     newField = getNextState(field);
     drawField(fieldWrapper, field, newField, cellClickHandler);
     // - запустить таймер для обновления поля
@@ -131,24 +142,37 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
       const sizeXNew = Number(inputX.value);
       const sizeYNew = Number(inputY.value);
       if (sizeXNew !== sizeX || sizeYNew !== sizeY) {
+        if (sizeXNew <= 0 || sizeYNew <= 0) {
+          stopGame("Недопустимый размер нового поля");
+          return;
+        }
         field = updateMatrix(field, sizeXNew, sizeYNew);
         sizeX = sizeXNew;
         sizeY = sizeYNew;
+      }
+      if (Number(timeScale.value) * 1000 !== ticTime) {
+        // eslint-disable-next-line no-use-before-define
+        changeGameSpeed();
       }
       field = getNextState(field);
       newField = getNextState(field);
 
       drawField(fieldWrapper, field, newField, cellClickHandler);
       if (!isAnyoneAlive(field)) {
-        // eslint-disable-next-line no-alert
-        alert("Death on the block");
-        stopGame();
+        stopGame("Все ячейки погибли");
       }
     }
 
     timer = window.setInterval(() => {
       gameRunning();
-    }, Number(timeScale.value) * 1000);
+    }, ticTime);
+  }
+
+  function changeGameSpeed() {
+    gameIsRunning = false;
+
+    clearInterval(timer);
+    startGame();
   }
 
   button.addEventListener("click", () => {
@@ -157,5 +181,9 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
     } else {
       stopGame();
     }
+  });
+
+  resetButton.addEventListener("click", () => {
+    resetGame();
   });
 }

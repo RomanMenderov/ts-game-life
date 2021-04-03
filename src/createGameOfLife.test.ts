@@ -11,6 +11,13 @@ const standardGame = (el: HTMLElement) => {
   (el.querySelector("input[name='time']") as HTMLInputElement).value = "10";
 };
 
+const invalidGame = (el: HTMLElement) => {
+  createGameOfLife(el);
+  (el.querySelector("input[name='columns']") as HTMLInputElement).value = "-5";
+  (el.querySelector("input[name='strings']") as HTMLInputElement).value = "-5";
+  (el.querySelector("input[name='time']") as HTMLInputElement).value = "10";
+};
+
 describe("createGameOfLife", () => {
   let element: HTMLElement;
   const originalAlert = window.alert;
@@ -47,6 +54,22 @@ describe("createGameOfLife", () => {
         button.click();
         expect(button.innerText).toBe("Stop");
       }
+    });
+    it("run alert when invalid params", () => {
+      invalidGame(element);
+      const button = element.querySelector("button");
+      if (button !== null) {
+        button.click();
+      }
+      expect(window.alert).toHaveBeenCalledWith("Недопустимый размер поля");
+    });
+    it("run alert when reset game", () => {
+      standardGame(element);
+      const resetButton = element.querySelector("button[name='Reset']");
+      if (resetButton !== null) {
+        (resetButton as HTMLButtonElement).click();
+      }
+      expect(window.alert).toHaveBeenCalledWith("Игра сброшена");
     });
     it("draws field", () => {
       (drawField as jest.Mock).mockImplementation(
