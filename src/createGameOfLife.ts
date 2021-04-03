@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-
 import { drawField } from "./drawField";
 import { getNextState } from "./getNextState";
 import { isAnyoneAlive } from "./isAnyoneAlive";
@@ -63,11 +61,11 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
 
   function updateMatrix(
     oldField: number[][],
-    oldX: number,
-    oldY: number,
     newX: number,
     newY: number
   ): number[][] {
+    const oldX = oldField[0].length;
+    const oldY = oldField.length;
     if (oldY > newY) {
       oldField.splice(newY - 1);
     } else if (oldY < newY) {
@@ -133,7 +131,7 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
       const sizeXNew = Number(inputX.value);
       const sizeYNew = Number(inputY.value);
       if (sizeXNew !== sizeX || sizeYNew !== sizeY) {
-        field = updateMatrix(field, sizeX, sizeY, sizeXNew, sizeYNew);
+        field = updateMatrix(field, sizeXNew, sizeYNew);
         sizeX = sizeXNew;
         sizeY = sizeYNew;
       }

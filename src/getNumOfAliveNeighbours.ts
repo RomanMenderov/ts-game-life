@@ -16,9 +16,6 @@ export function getNumOfAliveNeighbours(
 
   for (let j = column - 1; j <= column + 1; j += 1) {
     neighbours += Number(getCellState(field, j, row - 1));
-  }
-
-  for (let j = column - 1; j <= column + 1; j += 1) {
     neighbours += Number(getCellState(field, j, row + 1));
   }
 
