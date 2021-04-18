@@ -38,37 +38,38 @@ describe("createGameOfLife", () => {
       expect(element.querySelector("input[name='columns']")).toBeTruthy();
       expect(element.querySelector("input[name='strings']")).toBeTruthy();
       expect(
-        (element.querySelector("button") as HTMLButtonElement).innerText
+        (element.querySelector("button[name='Start']") as HTMLButtonElement)
+        .innerText
       ).toBe("Start");
       expect(element.querySelector(".field-wrapper")).toBeTruthy();
     });
     it("changes button name on click", () => {
       standardGame(element);
-      const button = element.querySelector("button");
-      if (button !== null) {
-        expect(button.innerText).toBe("Start");
-        button.click();
-        expect(button.innerText).toBe("Stop");
-        button.click();
-        expect(button.innerText).toBe("Start");
-        button.click();
-        expect(button.innerText).toBe("Stop");
-      }
+      const button = element.querySelector("button[name='Start']");
+      
+        expect((button as HTMLButtonElement).innerText).toBe("Start");
+        (button as HTMLButtonElement).click();
+        expect((button as HTMLButtonElement).innerText).toBe("Stop");
+        (button as HTMLButtonElement).click();
+        expect((button as HTMLButtonElement).innerText).toBe("Start");
+        (button as HTMLButtonElement).click();
+        expect((button as HTMLButtonElement).innerText).toBe("Stop");
+      
     });
     it("run alert when invalid params", () => {
       invalidGame(element);
-      const button = element.querySelector("button");
-      if (button !== null) {
-        button.click();
-      }
+      const button = element.querySelector("button[name='Start']");
+      
+        (button as HTMLButtonElement).click();
+      
       expect(window.alert).toHaveBeenCalledWith("Недопустимый размер поля");
     });
     it("run alert when reset game", () => {
       standardGame(element);
       const resetButton = element.querySelector("button[name='Reset']");
-      if (resetButton !== null) {
+      
         (resetButton as HTMLButtonElement).click();
-      }
+      
       expect(window.alert).toHaveBeenCalledWith("Игра сброшена");
     });
     it("draws field", () => {
@@ -78,7 +79,8 @@ describe("createGameOfLife", () => {
         }
       );
       standardGame(element);
-      (element.querySelector("button") as HTMLButtonElement).click();
+      (element.querySelector("button[name='Start']") as HTMLButtonElement)
+      .click();
 
       expect(
         (element.querySelector(".field-wrapper") as HTMLElement).innerHTML
@@ -99,7 +101,8 @@ describe("createGameOfLife", () => {
         }
       );
       standardGame(element);
-      const button = element.querySelector("button") as HTMLButtonElement;
+      const button = element
+      .querySelector("button[name='Start']") as HTMLButtonElement;
       button.click();
       expect(
         (element.querySelector(".field-wrapper") as HTMLElement).innerHTML
