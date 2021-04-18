@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 const minTimeScale = 1;
 const maxTimeScale = 10;
 export const basicMurkup = `
@@ -12,10 +11,12 @@ export const basicMurkup = `
   &nbsp;
   <div class="cell legend-cell shouldDie"></div>
   <span>- Умирающая клетка</span></div>
-  <input type="number" name="columns" placeholder="Количество столбцов">
-  <input type="number" name="strings" placeholder="Количество строк">
+  <input type="number" name="columns" 
+  placeholder="Количество столбцов" value="10">
+  <input type="number" name="strings" 
+  placeholder="Количество строк" value="10">
   <input type="range" name="time" min="${minTimeScale}" max="${maxTimeScale}">
   <span><br>Рандомные клетки</span>
   <input type="checkbox" name="randomiser" placeholder="Randomiser">
   <button name="Start">Start</button><button name="Reset">Reset</button>
-`
+`;

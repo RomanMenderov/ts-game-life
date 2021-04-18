@@ -2,7 +2,8 @@ import { drawField } from "./drawField";
 import { getNextState } from "./getNextState";
 import { isAnyoneAlive } from "./isAnyoneAlive";
 import { createMatrix, updateMatrix } from "./returnMatrix";
-import {basicMurkup} from "./createBasicMurkup";
+import { basicMurkup } from "./createBasicMurkup";
+import { ifCycle } from "./cycleTest";
 /**
  * Создание игры Жизнь
  * @param sizeX {number} - число колонок
@@ -12,6 +13,7 @@ import {basicMurkup} from "./createBasicMurkup";
  */
 export function createGameOfLife(htmlElement: HTMLElement): void {
   let gameIsRunning = false;
+  let memory: string[];
   let timer: number;
   let ticTime: number;
   let field: number[][];
@@ -25,17 +27,17 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
   htmlElement.innerHTML = basicMurkup;
   const fieldWrapper = htmlElement.querySelector("div.field-wrapper");
 
-const inputX = htmlElement.querySelector("input[name = 'columns']") ;
+  const inputX = htmlElement.querySelector("input[name = 'columns']");
 
-const inputY = htmlElement.querySelector("input[name = 'strings']");
+  const inputY = htmlElement.querySelector("input[name = 'strings']");
 
-const timeScale = htmlElement.querySelector("input[name = 'time']");
+  const timeScale = htmlElement.querySelector("input[name = 'time']");
 
-const inputR = htmlElement.querySelector("input[name = 'randomiser']");
+  const inputR = htmlElement.querySelector("input[name = 'randomiser']");
 
-const button = htmlElement.querySelector("button[name = 'Start']");
+  const button = htmlElement.querySelector("button[name = 'Start']");
 
-const resetButton = htmlElement.querySelector("button[name = 'Reset']");
+  const resetButton = htmlElement.querySelector("button[name = 'Reset']");
 
   const cellClickHandler = (x: number, y: number) => {
     field[y][x] = field[y][x] === 0 ? 1 : 0;
@@ -52,7 +54,7 @@ const resetButton = htmlElement.querySelector("button[name = 'Reset']");
     const myMassage = massage || "Игра приостановлена";
     gameIsRunning = false;
     // - поменять надпись на `start`
-    (button as HTMLButtonElement).innerText = "Start";
+    (button as HTMLButtonElement).innerHTML = "Start";
     clearInterval(timer);
     // eslint-disable-next-line no-alert
     alert(myMassage);
@@ -62,7 +64,7 @@ const resetButton = htmlElement.querySelector("button[name = 'Reset']");
     const myMassage = "Игра сброшена";
     gameIsRunning = false;
     // - поменять надпись на `start`
-    (button as HTMLButtonElement).innerText = "Start";
+    (button as HTMLButtonElement).innerHTML = "Start";
     clearInterval(timer);
     // eslint-disable-next-line no-alert
     alert(myMassage);
@@ -80,7 +82,10 @@ const resetButton = htmlElement.querySelector("button[name = 'Reset']");
       return;
     }
     gameIsRunning = true;
-    (button as HTMLButtonElement).innerText = "Stop";
+
+    memory = ["", ""];
+
+    (button as HTMLButtonElement).innerHTML = "Stop";
 
     if (!field || JSON.stringify(field) === "[[]]") {
       field = createMatrix(sizeX, sizeY, (inputR as HTMLInputElement).checked);
@@ -119,6 +124,11 @@ const resetButton = htmlElement.querySelector("button[name = 'Reset']");
       drawField(fieldWrapper as HTMLElement, field, newField, cellClickHandler);
       if (!isAnyoneAlive(field)) {
         stopGame("Все ячейки погибли");
+      }
+      if (!ifCycle(memory, field, newField)) {
+        memory = [JSON.stringify(field), JSON.stringify(newField)];
+      } else {
+        stopGame("Игра зациклена");
       }
     }
 
