@@ -1,0 +1,29 @@
+.cell {
+  width: 10px;
+  height: 10px;
+  border: 1px solid black;
+}
+
+.dead {
+  background-color: #fff;
+}
+
+.alive {
+  background-color: black;
+}
+
+.shouldBorn {
+  background-color: #fbff00;
+}
+
+.shouldDie {
+  background-color: #a3a3a3;
+}
+
+.legend-cell {
+  display: inline-block;
+}
+
+input[name="time-value"] {
+  width: 20px;
+}
