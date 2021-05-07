@@ -24,6 +24,6 @@
   display: inline-block;
 }
 
-input[name="range-value"] {
+input[name="time-value"] {
   width: 20px;
 }
