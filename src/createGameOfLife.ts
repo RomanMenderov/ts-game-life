@@ -14,6 +14,7 @@ import { ifCycle } from "./cycleTest";
 export function createGameOfLife(htmlElement: HTMLElement): void {
   const basicTimeMaxLimit = "10";
   const basicTimeMinLimit = "1";
+  const basicTimerTime = "5";
   let gameIsRunning = false;
   let memory: string[];
   let timer: number;
@@ -33,8 +34,20 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
   const inputY = htmlElement.querySelector("input[name = 'strings']");
 
   const timeScale = htmlElement.querySelector("input[name = 'time']");
+  (timeScale as HTMLInputElement).value = basicTimerTime;
   (timeScale as HTMLInputElement).min = basicTimeMinLimit;
   (timeScale as HTMLInputElement).max = basicTimeMaxLimit;
+
+  const timeScaleInput = htmlElement.querySelector("input[name='time-value']");
+  // eslint-disable-next-line max-len
+  (timeScaleInput as HTMLInputElement).value = (timeScale as HTMLInputElement).value;
+
+  (timeScale as HTMLInputElement).addEventListener(
+    "change",
+    function showRangeValue() {
+      (timeScaleInput as HTMLInputElement).value = this.value.toString();
+    }
+  );
 
   const inputR = htmlElement.querySelector("input[name = 'randomiser']");
 
@@ -68,8 +81,10 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
     // - поменять надпись на `start`
     (button as HTMLButtonElement).innerHTML = "Start";
     clearInterval(timer);
-    alert(myMassage);
     field = [[]];
+    drawField(fieldWrapper as HTMLElement, field, field, cellClickHandler);
+    (timeScale as HTMLInputElement).value = basicTimerTime;
+    alert(myMassage);
   }
 
   function startGame() {

@@ -16,7 +16,10 @@ export const basicMurkup = `
   placeholder="Количество столбцов" value="10">
   <input type="number" name="strings" 
   placeholder="Количество строк" value="10">
-  <input type="range" name="time" min="1" max="10" value="5">
+  <span>&nbsp; Время хода &nbsp;</span>
+  <input type="range" name="time">
+  <input type="text" name="time-value">
+  <span>&nbsp; секунд &nbsp;</span>
   <span><br>Рандомные клетки</span>
   <input type="checkbox" name="randomiser" placeholder="Randomiser">
   <button name="Start">Start</button><button name="Reset">Reset</button>

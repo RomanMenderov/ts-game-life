@@ -44,7 +44,7 @@ describe("createGameOfLife", () => {
     window.alert = originalAlert;
   });
   describe("UI", () => {
-    it("creates Start button and field", () => {
+    it("creates Start button and fields", () => {
       standardGame(element);
       expect(element.querySelector("button")).toBeTruthy();
       expect(element.querySelector("input[name='columns']")).toBeTruthy();
@@ -53,6 +53,10 @@ describe("createGameOfLife", () => {
         (element.querySelector("button[name='Start']") as HTMLButtonElement)
           .innerHTML
       ).toBe("Start");
+      expect(
+        (element.querySelector("input[name = 'time']") as HTMLInputElement)
+          .value
+      ).toBe("10");
       expect(element.querySelector(".field-wrapper")).toBeTruthy();
     });
     it("changes button name on click", () => {
