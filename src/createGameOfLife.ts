@@ -12,6 +12,8 @@ import { ifCycle } from "./cycleTest";
  * @returns void
  */
 export function createGameOfLife(htmlElement: HTMLElement): void {
+  const basicTimeMaxLimit = "10";
+  const basicTimeMinLimit = "1";
   let gameIsRunning = false;
   let memory: string[];
   let timer: number;
@@ -31,6 +33,8 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
   const inputY = htmlElement.querySelector("input[name = 'strings']");
 
   const timeScale = htmlElement.querySelector("input[name = 'time']");
+  (timeScale as HTMLInputElement).min = basicTimeMinLimit;
+  (timeScale as HTMLInputElement).max = basicTimeMaxLimit;
 
   const inputR = htmlElement.querySelector("input[name = 'randomiser']");
 
@@ -86,6 +90,12 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
 
     if (!field || JSON.stringify(field) === "[[]]") {
       field = createMatrix(sizeX, sizeY, (inputR as HTMLInputElement).checked);
+
+      if (!(inputR as HTMLInputElement).checked) {
+        drawField(fieldWrapper as HTMLElement, field, field, cellClickHandler);
+        stopGame("Настройте свою игру и нажмите start");
+        return;
+      }
     }
 
     newField = getNextState(field);
@@ -121,6 +131,7 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
       drawField(fieldWrapper as HTMLElement, field, newField, cellClickHandler);
       if (!isAnyoneAlive(field)) {
         stopGame("Все ячейки погибли");
+        return;
       }
       if (!ifCycle(memory, field, newField)) {
         memory = [JSON.stringify(field), JSON.stringify(newField)];

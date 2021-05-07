@@ -8,6 +8,19 @@ const standardGame = (el: HTMLElement) => {
   (el.querySelector("input[name='columns']") as HTMLInputElement).value = "5";
   (el.querySelector("input[name='strings']") as HTMLInputElement).value = "5";
   (el.querySelector("input[name='time']") as HTMLInputElement).value = "10";
+  (el.querySelector(
+    "input[name = 'randomiser']"
+  ) as HTMLInputElement).checked = true;
+};
+
+const standardGameNoRandom = (el: HTMLElement) => {
+  createGameOfLife(el);
+  (el.querySelector("input[name='columns']") as HTMLInputElement).value = "5";
+  (el.querySelector("input[name='strings']") as HTMLInputElement).value = "5";
+  (el.querySelector("input[name='time']") as HTMLInputElement).value = "10";
+  (el.querySelector(
+    "input[name = 'randomiser']"
+  ) as HTMLInputElement).checked = false;
 };
 
 const invalidGame = (el: HTMLElement) => {
@@ -69,6 +82,16 @@ describe("createGameOfLife", () => {
       (resetButton as HTMLButtonElement).click();
 
       expect(window.alert).toHaveBeenCalledWith("Игра сброшена");
+    });
+    it("run alert when empty game started", () => {
+      standardGameNoRandom(element);
+      const button = element.querySelector("button[name='Start']");
+
+      (button as HTMLButtonElement).click();
+
+      expect(window.alert).toHaveBeenCalledWith(
+        "Настройте свою игру и нажмите start"
+      );
     });
     it("draws field", () => {
       (drawField as jest.Mock).mockImplementation(

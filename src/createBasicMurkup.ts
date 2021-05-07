@@ -1,7 +1,8 @@
-const minTimeScale = 1;
-const maxTimeScale = 10;
+// const minTimeScale = 1;
+// const maxTimeScale = 10;
 export const basicMurkup = `
 <div class="field-wrapper"></div>
+<div class="special-info"></div>
 <div><span>Легенда:</span><br>
   <div class="cell legend-cell alive"></div><span>- Живая клетка</span>
   &nbsp;
@@ -15,7 +16,7 @@ export const basicMurkup = `
   placeholder="Количество столбцов" value="10">
   <input type="number" name="strings" 
   placeholder="Количество строк" value="10">
-  <input type="range" name="time" min="${minTimeScale}" max="${maxTimeScale}">
+  <input type="range" name="time" min="1" max="10" value="5">
   <span><br>Рандомные клетки</span>
   <input type="checkbox" name="randomiser" placeholder="Randomiser">
   <button name="Start">Start</button><button name="Reset">Reset</button>
