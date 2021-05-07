@@ -24,3 +24,7 @@
   display: inline-block;
 }
 
+input[name="range-value"] {
+  width: 20px;
+}
+
