@@ -6,14 +6,14 @@ export function createMatrix(
   const matrix = [];
   const randomiser = () => {
     if (randomFlag) {
-      return Math.random();
+      return Math.round(Math.random());
     }
     return 0;
   };
   for (let i = 0; i < lengthY; i++) {
     const row = [];
     for (let j = 0; j < lengthX; j++) {
-      row.push(Math.round(randomiser()));
+      row.push(randomiser());
     }
     matrix.push(row);
   }

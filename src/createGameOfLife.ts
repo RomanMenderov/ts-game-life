@@ -23,7 +23,6 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
   // Создать блок для поля
   // Создать кнопку управления игрой
 
-  // eslint-disable-next-line no-param-reassign
   htmlElement.innerHTML = basicMurkup;
   const fieldWrapper = htmlElement.querySelector("div.field-wrapper");
 
@@ -56,7 +55,6 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
     // - поменять надпись на `start`
     (button as HTMLButtonElement).innerHTML = "Start";
     clearInterval(timer);
-    // eslint-disable-next-line no-alert
     alert(myMassage);
   }
 
@@ -66,7 +64,6 @@ export function createGameOfLife(htmlElement: HTMLElement): void {
     // - поменять надпись на `start`
     (button as HTMLButtonElement).innerHTML = "Start";
     clearInterval(timer);
-    // eslint-disable-next-line no-alert
     alert(myMassage);
     field = [[]];
   }

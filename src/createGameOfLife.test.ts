@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createGameOfLife } from "./createGameOfLife";
 import { drawField } from "./drawField";
 
@@ -87,7 +86,7 @@ describe("createGameOfLife", () => {
       ).toBeTruthy();
     });
     it("redraw field on interaction with it", () => {
-      let onCellClick;
+      let onCellClick: (x: number, y: number) => void;
       (drawField as jest.Mock).mockImplementation(
         (
           fieldEl: HTMLElement,
@@ -116,7 +115,7 @@ describe("createGameOfLife", () => {
           [0, 0, 0, 0, 0],
         ])})`
       );
-      ((onCellClick as unknown) as (x: number, y: number) => void)(0, 0);
+      onCellClick(0, 0);
       expect(
         (element.querySelector(".field-wrapper") as HTMLElement).innerHTML
       ).toBe(
@@ -128,7 +127,7 @@ describe("createGameOfLife", () => {
           [0, 0, 0, 0, 0],
         ])})`
       );
-      ((onCellClick as unknown) as (x: number, y: number) => void)(0, 0);
+      onCellClick(0, 0);
       expect(
         (element.querySelector(".field-wrapper") as HTMLElement).innerHTML
       ).toBe(

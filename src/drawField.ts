@@ -39,13 +39,11 @@ export function drawField(
     const cellClasses = el.className;
 
     if (newField[rowIndex][cellIndex] === 1 && cellClasses.includes("dead")) {
-      // eslint-disable-next-line no-param-reassign
       el.className = el.className.replace("dead", "shouldBorn");
     } else if (
       newField[rowIndex][cellIndex] === 0 &&
       cellClasses.includes("alive")
     ) {
-      // eslint-disable-next-line no-param-reassign
       el.className = el.className.replace("alive", "shouldDie");
     }
     return el;
